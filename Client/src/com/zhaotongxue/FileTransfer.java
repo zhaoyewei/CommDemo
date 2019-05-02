@@ -22,10 +22,12 @@ public class FileTransfer {
     public FileTransfer(User user) {
         this.user = user;
     }
-    public FileTransfer(User user,int port) {
+
+    public FileTransfer(User user, int port) {
         this.user = user;
         this.recvPort = port;
     }
+
     public FileTransfer(User user, String path) {
         this.user = user;
         file = new File(path);
@@ -37,15 +39,18 @@ public class FileTransfer {
     }
 
     public void recvFile() throws IOException {
-        int port=2019;
+        int port = 2019;
         if (this.recvPort != 0)
             port = recvPort;
         recvFile(port);
     }
 
     public void recvFile(int port) throws IOException {
-        Thread fileRecvThread = new Thread(new FileRecvThread(port));
-        fileRecvThread.start();;
+        String path=user.recvMsg();
+        String[] paths= path.split(File.pathSeparator);
+        String fileName = paths[paths.length - 1];
+        Thread fileRecvThread = new Thread(new FileRecvThread(port,fileName));
+        fileRecvThread.start();
         user.send("READY");
     }
 
@@ -133,38 +138,43 @@ class FileSendThread implements Runnable {
 
 class FileRecvThread implements Runnable {
     private int port;
-    private String path;
+    private String fileName;
 
     public FileRecvThread(int port) {
         this.port = port;
     }
 
-    public FileRecvThread(int port, String path) {
+    public FileRecvThread(int port, String fileName) {
         this.port = port;
-        this.path = path;
+        this.fileName = fileName;
     }
 
     @Override
     public void run() {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
-            Socket recvSocket=serverSocket.accept();
-            if (path == null) path = ".";
-            File f=new File(path);
-            synchronized(f){
-            if(!f.exists())f.createNewFile();
-            FileOutputStream fos=new FileOutputStream(f);
-            byte[] bytes=new byte[1024];
-            while(recvSocket.getInputStream().read(bytes)!=-1){
-                fos.write(bytes); 
-            }
-                System.out.println("Recv file successfully");
+            Socket recvSocket = serverSocket.accept();
+            if (fileName == null)
+                fileName = "recv";
+            File f = new File(fileName);
+            synchronized (f) {
+                if (f.exists()){
+                    f.delete();
+                }
+                f.createNewFile();
+                FileOutputStream fos = new FileOutputStream(f);
+                byte[] bytes = new byte[1024];
+                while (recvSocket.getInputStream().read(bytes) != -1) {
+                    fos.write(bytes);
+                    fos.flush();
+                }
                 fos.close();
                 serverSocket.close();
-        }
+                System.out.println("Recv file successfully");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
     }
 }

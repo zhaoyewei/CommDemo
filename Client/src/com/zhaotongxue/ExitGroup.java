@@ -16,5 +16,11 @@ public class ExitGroup {
 
     public void exitGroup() throws IOException {
         user.send(CommandsConverter.getConverter().getStrCmd(Commands.EXITGROUP));
+        String s = user.recvMsg();
+        if (!s.equals("")) {
+            System.out.println(s);
+        } else {
+            System.out.println("Exit group Comm failed");
+        }
     }
 }

@@ -4,7 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * ClientMain
  */
@@ -17,7 +21,9 @@ public class ClientMain {
     Socket socket = null;
     Commands status = Commands.NONE;
     String strCmd = null;
-
+    Date date=null;
+    Calendar calendar = Calendar.getInstance();
+    SimpleDateFormat slf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static void main(String[] args) {
         ClientMain clientMain = new ClientMain();
         clientMain.MianProcess();
@@ -52,7 +58,108 @@ public class ClientMain {
 
     }
 
-    public void MianProcess() {
+    private void inCmdProcess(Commands inCmd) {
+        switch (inCmd) {
+        // 发送文件，那么直接发过去就行
+        case FILETRANSFER:
+            try {
+                sendFile(user, strCmd);
+            } catch (IOException e) {
+            }
+            status = Commands.NONE;
+            break;
+        case LOGIN:
+            try {
+                userLogin(user, strCmd);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            status = Commands.NONE;
+            break;
+        case REGISTER:
+            try {
+                reg(user, strCmd);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            status = Commands.NONE;
+            break;
+        case GETLIST:
+            try {
+                getList(user);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            status = Commands.NONE;
+            break;
+        case HISTORY:
+            try {
+                getHistory(user, strCmd);
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            status = Commands.NONE;
+            break;
+        case EXIT:
+            // new ExitClient(user);
+            try {
+                exitClient();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            status = Commands.NONE;
+            break;
+        case EXITPAIR:
+            // new ExitPair(user);
+            try {
+                exitPair(user);
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+            status = Commands.NONE;
+            break;
+        case EXITGROUP:
+            // new ExitGroup(user);
+            try {
+                exitGroup(user);
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+            status = Commands.NONE;
+            break;
+        case GROUPCOMM:
+            try {
+                if (pairComm(user, strCmd)) {
+                    status = inCmd;
+                } else {
+                    status = Commands.NONE;
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            break;
+        case PAIRCOMM:
+            try {
+                if (groupComm(user)) {
+                    status = inCmd;
+                } else {
+                    status = Commands.NONE;
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            break;
+        default:
+            status = inCmd;
+            break;
+        }
+    }
+
+    private void MianProcess() {
         InitConnection();
         // 处理本地用户输入操作
         status = Commands.NONE;
@@ -60,7 +167,14 @@ public class ClientMain {
             try {
                 // 用户输入，并且转换为命令
                 strCmd = cmdReader.readLine();
-                status = CommandsConverter.getConverter().toCmds(strCmd);
+                // 在群组通信和端到端通信的时候，直接把输入传进去，至于如果这时候是退出通信的命令，那么就是在群组通信和端到端通信中再检测一次就行了，如果是的话改变Status，不是的话保持。
+                if (status != Commands.GROUPCOMM && status != Commands.PAIRCOMM) {
+                    Commands inCmd = CommandsConverter.getConverter().toCmds(strCmd);
+                    inCmdProcess(inCmd);
+                } else {
+                    //通信过程中就直接发送
+                    sendMsg(strCmd);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
                 try {
@@ -73,106 +187,58 @@ public class ClientMain {
         }
     }
 
+    private void sendMsg(String strCmd) throws IOException {
+        date = calendar.getTime();
+        user.send(String.format("%s//DATE:", strCmd,slf.format(date)));
+    }
+
     class RecvListener implements Runnable {
 
         @Override
         public void run() {
+            String recvStrMsg = null;
             while (true) {
+                try {
+                    recvStrMsg = user.recvMsg();
+                    if (CommandsConverter.getConverter().toCmds(recvStrMsg) == Commands.FILERECV) {
+                        fileRecv(user);
+                        continue;
+                    }
+                } catch (IOException e2) {
+                    // TODO Auto-generated catch block
+                    e2.printStackTrace();
+                }
                 switch (status) {
                 // 啥都没有
                 case NONE:
-                    try {
-                        showInfo(user.recvMsg());
-                    } catch (IOException e2) {
-                        e2.printStackTrace();
-                    }
+                    /*
+                     * try { showInfo(user.recvMsg()); } catch (IOException e2) {
+                     * e2.printStackTrace(); }
+                     */
+                    showInfo(recvStrMsg);
                     break;
                 case PAIRCOMM:
-                    try {
-                        if (pairComm(user, strCmd)) {
-                            showMsg(user.recvMsg());
-                        } else {
-                            status = Commands.NONE;
-                        }
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                            status = Commands.NONE;
-                    }
+                    /*
+                     * try { if (pairComm(user, strCmd)) { showMsg(user.recvMsg()); } else { status
+                     * = Commands.NONE; } } catch (IOException e1) { e1.printStackTrace(); status =
+                     * Commands.NONE; }
+                     */
+                    showMsg(recvStrMsg);
                     break;
                 case GROUPCOMM:
                     // join group,then show msg
-                    try {
-                        if (groupComm(user)) {
-                            showMsg(user.recvMsg());
-                        } else {
-                            status = Commands.NONE;
-                        }
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                            status = Commands.NONE;
-                    }
-                    break;
-                case EXITPAIR:
-                    // new ExitPair(user);
-                    status = Commands.NONE;
-                    break;
-                case EXITGROUP:
-                    // new ExitGroup(user);
-                    status = Commands.NONE;
-                    break;
-                case FILETRANSFER:
-                    try {
-                        sendFile(user, strCmd);
-                    } catch (IOException e) {
-                    }
-                    status = Commands.NONE;
-                    break;
-                case LOGIN:
-                    try {
-                        userLogin(user, strCmd);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    status = Commands.NONE;
-                    break;
-                case REGISTER:
-                    try {
-                        reg(user, strCmd);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    status = Commands.NONE;
-                    break;
-                case GETLIST:
-                    try {
-                        getList(user);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    status = Commands.NONE;
-                    break;
-                case HISTORY:
-                    try {
-                        getHistory(user, strCmd);
-                    } catch (IOException | ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    status = Commands.NONE;
-                    break;
-                case EXIT:
-                    // new ExitClient(user);
-                    try {
-                        exitClient();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    status = Commands.EXIT;
+                    /*
+                     * try { if (groupComm(user)) { showMsg(user.recvMsg()); } else { status =
+                     * Commands.NONE; } } catch (IOException e1) { e1.printStackTrace(); status =
+                     * Commands.NONE; }
+                     */
+                    showMsg(recvStrMsg);
                     break;
                 // case FILERECV:
                 // fileRecv(user, 2019);
                 // break;
                 default:
-                    status = Commands.NONE;
+                    // status = Commands.NONE;
                     break;
                 }
             }
@@ -198,16 +264,34 @@ public class ClientMain {
 
     }
 
+    private void exitPair(User user) throws IOException {
+        user.send(CommandsConverter.getConverter().getStrCmd(Commands.EXITPAIR));
+        String s = user.recvMsg();
+        if (!s.equals("")) {
+            System.out.println(s);
+        } else {
+            System.out.println("Exit Pair Comm failed");
+        }
+    }
+
+    private void exitGroup(User user) throws IOException {
+        user.send(CommandsConverter.getConverter().getStrCmd(Commands.EXITGROUP));
+        String s = user.recvMsg();
+        if (!s.equals("")) {
+            System.out.println(s);
+        } else {
+            System.out.println("Exit Group Comm failed");
+        }
+    }
+
     private void exitClient() throws IOException {
         user.disconnect();
         System.exit(1);
-        ;
     }
 
     private void showInfo(String recvdMsg) {
         System.out.println(recvdMsg);
     }
-
 
     private void fileRecv(User user) throws IOException {
         int port = 2019;
@@ -232,6 +316,7 @@ public class ClientMain {
     public void showMsg(String msg) {
         System.out.println(msg);
     }
+
     public void showMsg(Msg msg) {
         System.out.println(String.format("%s\t%s:\n%s", msg.getDate().toString(), msg.getUserId(), msg.getContext()));
     }
@@ -291,23 +376,15 @@ public class ClientMain {
 }
 
 /*
-class RecvMsg implements Runnable {
-    private User user;
-
-    public RecvMsg(User user) {
-        this.user = user;
-    }
-
-    @Override
-    public void run() {
-        try {
-            String recvMsg = user.recvMsg();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-}
-*/
+ * class RecvMsg implements Runnable { private User user;
+ * 
+ * public RecvMsg(User user) { this.user = user; }
+ * 
+ * @Override public void run() { try { String recvMsg = user.recvMsg();
+ * 
+ * } catch (IOException e) { e.printStackTrace(); }
+ * 
+ * }
+ * 
+ * }
+ */
