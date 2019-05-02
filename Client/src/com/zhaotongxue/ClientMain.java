@@ -13,23 +13,22 @@ import java.util.Date;
  * ClientMain
  */
 public class ClientMain {
-
-    String host = "10.122.195.204";
-    int port = 1919;
-    BufferedReader cmdReader = null;
-    User user = null;
-    Socket socket = null;
-    Commands status = Commands.NONE;
-    String strCmd = null;
-    Date date=null;
-    Calendar calendar = Calendar.getInstance();
-    SimpleDateFormat slf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+   private String host = "10.122.195.204";
+   private int port = 1919;
+   private BufferedReader cmdReader = null;
+   private User user = null;
+   private Socket socket = null;
+   private Commands status = Commands.NONE;
+   private String strCmd = null;
+   private Date date=null;
+   private Calendar calendar = Calendar.getInstance();
+   private SimpleDateFormat slf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static void main(String[] args) {
         ClientMain clientMain = new ClientMain();
         clientMain.MianProcess();
     }
 
-    void InitConnection() {
+    private void InitConnection() {
         while (true) {
             try {
                 cmdReader = new BufferedReader(new InputStreamReader(System.in, "GBK"));
@@ -313,11 +312,11 @@ public class ClientMain {
         }
     }
 
-    public void showMsg(String msg) {
+    private void showMsg(String msg) {
         System.out.println(msg);
     }
 
-    public void showMsg(Msg msg) {
+    private void showMsg(Msg msg) {
         System.out.println(String.format("%s\t%s:\n%s", msg.getDate().toString(), msg.getUserId(), msg.getContext()));
     }
 
@@ -365,7 +364,7 @@ public class ClientMain {
         }
     }
 
-    public void reg(User user, String strCmd) throws IOException {
+    private void reg(User user, String strCmd) throws IOException {
         RegisterUser registerUser = new RegisterUser(user, strCmd);
         if (registerUser.reg()) {
             System.out.println("Register successful!");
