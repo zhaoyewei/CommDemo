@@ -26,8 +26,10 @@ public class CommandsConverter {
             return Commands.FILETRANSFER;
         case "History":
             return Commands.HISTORY;
-            case "GetList":
+        case "GetList":
             return Commands.GETLIST;
+        case "FileRecv":
+            return Commands.FILERECV;
         default:
             return Commands.NONE;
         }

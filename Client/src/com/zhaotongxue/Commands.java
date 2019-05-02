@@ -11,5 +11,5 @@ public enum Commands {
     FILETRANSFER,
     HISTORY,
     GETLIST,
-    EXIT;
+    EXIT, FILERECV;
 }

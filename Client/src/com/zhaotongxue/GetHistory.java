@@ -1,5 +1,7 @@
 package com.zhaotongxue;
 
+import java.io.IOException;
+
 /**
  * GetHistory
  */
@@ -7,22 +9,24 @@ public class GetHistory {
 
     private User user;
     private String strCmd;
-    public GetHistory(User user,String cmd){
+
+    public GetHistory(User user, String cmd) {
         this.user = user;
         this.strCmd = cmd;
     }
 
-    public boolean getHistory() {
+    public HistoryMsg getHistory() throws IOException, ClassNotFoundException {
         String[] cmds = strCmd.split(" ");
         if (cmds.length != 2){
-            return false;
+            return null;
         } else {
-            this.user.send(String.format("%s %s",CommandsConverter.getConverter().getStrCmd(Commands.HISTORY),cmds[1]);
-            String his=this.user.recv();
-            if(his==null){
-                return false;
+            this.user.send(String.format("%s %s",CommandsConverter.getConverter().getStrCmd(Commands.HISTORY),cmds[1]));
+            //String his=this.user.recvMsg();
+            HistoryMsg obj = (HistoryMsg) user.readObject();
+            if(obj==null){
+                return null;
             }else{
-                return true;
+                return obj;
             }
         }
 

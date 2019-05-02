@@ -9,5 +9,6 @@ public class ExitClient {
 
     public ExitClient(User user) throws IOException {
         user.send(CommandsConverter.getConverter().getStrCmd(Commands.EXIT));
+        user.disconnect();
     }
 }
