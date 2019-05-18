@@ -22,7 +22,18 @@ public class GetHistory {
         } else {
             this.user.send(String.format("%s %s",CommandsConverter.getConverter().getStrCmd(Commands.HISTORY),cmds[1]));
             //String his=this.user.recvMsg();
-            HistoryMsg obj = (HistoryMsg) user.readObject();
+//            HistoryMsg obj = (HistoryMsg) user.readObject();
+            String str=user.recvMsg();
+            HistoryMsg historyMsg=new HistoryMsg();
+            String[] strs=str.split("//MSG:");
+            for(int i=1;i<strs.length;i++){
+                String id=strs[i].split("//")[0];
+                String content=strs[i].split("//")[1];
+                String date=strs[i].split("//")[2];
+                historyMsg.addMsg(id,content,date);
+                System.out.println(strs[i]);
+            }
+            HistoryMsg obj=historyMsg;
             if(obj==null){
                 return null;
             }else{

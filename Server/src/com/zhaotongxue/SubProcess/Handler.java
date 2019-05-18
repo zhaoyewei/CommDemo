@@ -81,11 +81,8 @@ public class Handler {
                             setSession(true);
                             user.send(res);
                             //登录成功之后，服务器连接客户端，专门传送别的客户端发过来的消息
-//                            if(user.recv().equals("1")) {
-//                                String strPort=user.recv();
                                 Socket s = new Socket(user.getAddr(), 2019);
                                 user.setMsgSocket(s);
-//                            }
                         } else {
                         setSession(false);
                         user.send("0");
@@ -99,14 +96,22 @@ public class Handler {
             // 传输文件命令
             else if (isSession() && cmd.equals("FileTransfer")) {
                 // FileTransfer userRecv
-                if (commandLine.length == 3) {
+                if (commandLine.length >= 3) {
+                    //find user
                     User recvUser = ListMaster.getListMaster().findUser(commandLine[1]);
+                    //found
                     if (recvUser != null) {
+                        //Get File Name
+                        String fileName="";
+                        for(int i=2;i<commandLine.length;i++){
+                            fileName+=commandLine[i];
+                        }
+                        //Create Thread
                         Thread fileTransferThread = new Thread(
-                                new FileTransferProcess(user, recvUser, commandLine[2]));
+                                new FileTransferProcess(user, recvUser, fileName));
                         fileTransferThread.start();
                     } else {
-                        user.send("Can't find user: " + commandLine[1]);
+                        user.send("-1");
                     }
                 }
             }
@@ -154,11 +159,12 @@ public class Handler {
             }
         } else if (commStatus == CommStatus.PAIR_COMM) {
             if (!pairMaster.TalkTo(strLine)) {
-//                    User recvUser = pairMaster.getPair();
+                user.send("//EXITPAIR");
                 commStatus = CommStatus.NO_COMM;
             }
         } else if (commStatus == CommStatus.GROUP_COMM) {
             if (!GroupMaster.getGroupMaster().sendMsg(user, strLine)) {
+                user.send("//EXITGROUP");
                 commStatus = CommStatus.NO_COMM;
             }
         }

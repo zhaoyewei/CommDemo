@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -16,43 +17,47 @@ public class FileTransfer {
 
     private static final long MAXSIZE = 1024 * 20;
     private User user;
+    private String recvUserName;
     private File file;
-    private int recvPort;
 
     public FileTransfer(User user) {
         this.user = user;
     }
 
-    public FileTransfer(User user, int port) {
-        this.user = user;
-        this.recvPort = port;
-    }
 
     public FileTransfer(User user, String path) {
         this.user = user;
         file = new File(path);
     }
 
+    public FileTransfer(User user,String recvUserName,String path){
+        this.user=user;
+        file=new File(path);
+        this.recvUserName=recvUserName;
+    }
+//    public FileTransfer(User user,int port,String fileName,String )
     public String prepareSendFile() throws IOException {
-        user.send(CommandsConverter.getConverter().getStrCmd(Commands.FILETRANSFER));
+        user.send(CommandsConverter.getConverter().getStrCmd(Commands.FILETRANSFER)+" "+recvUserName+" "+file.getName());
         return user.recvMsg();
     }
 
-    public void recvFile() throws IOException {
-        int port = 2019;
-        if (this.recvPort != 0)
-            port = recvPort;
-        recvFile(port);
+    public void recvFile(int port,String fileName) throws IOException {
+        Thread fileRecvThread = new Thread(new FileRecvThread(user,port, fileName));
+        fileRecvThread.start();
+//        user.send("READY");
     }
 
+    /*
     public void recvFile(int port) throws IOException {
-        String fileName = user.recvMsg();
+//        String fileName = user.recvMsg();
+//        String inetAddress= user.recvMsg();
         // String[] paths= path.split(File.pathSeparator);
         // String fileName = paths[paths.length - 1];
         Thread fileRecvThread = new Thread(new FileRecvThread(port, fileName));
         fileRecvThread.start();
         user.send("READY");
     }
+     */
 
     public boolean sendFile() throws IOException {
         if (!file.exists()) {
@@ -71,9 +76,16 @@ public class FileTransfer {
             } else {
                 fis.close();
                 String recvMsg = prepareSendFile();
-                Thread fileTransferThread = new Thread(new FileSendThread(user, file, recvMsg));
-                fileTransferThread.start();
-                return true;
+                //Find user,and server get file name;
+                //recvMsg :-1 :not found. other:recvIP;
+                if(!recvMsg.equals("-1")) {
+                    Thread fileTransferThread = new Thread(new FileSendThread(user, file, recvMsg));
+                    fileTransferThread.start();
+                    return true;
+                }else{
+                    System.out.println("Can't find user");
+                    return false;
+                }
                 /*
                  * if (!recvMsg.equals("READY")) { System.out.println("Failed"); fis.close();
                  * return false; } else { Thread fileTransferThread = new Thread(new
@@ -98,25 +110,24 @@ class FileSendThread implements Runnable {
         this.user = user;
         this.file = f;
         this.recvIp = recvIp;
-        port = 2019;
-        socket = new Socket(recvIp, port);
+        port = 9009;
     }
 
     public FileSendThread(User user, FileChannel fileChannel, String recvIp) throws UnknownHostException, IOException {
         this.user = user;
         this.fileChannel = fileChannel;
         this.recvIp = recvIp;
-        port = 2019;
-        socket = new Socket(recvIp, port);
+        port =9009;
     }
 
     @Override
     public void run() {
         try {
+            socket = new Socket(recvIp.substring(1), port);
             if (socket == null) {
                 return;
             }
-            user.send("READY");
+//            user.send("READY");
             FileInputStream fis = new FileInputStream(file);
             byte[] buffer = new byte[1024];
             int size = 0;
@@ -128,6 +139,7 @@ class FileSendThread implements Runnable {
             System.out.println(String.format("Send to %s successfully", recvIp));
             socket.close();
             fis.close();
+            System.out.println("send successfully");
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -138,13 +150,16 @@ class FileSendThread implements Runnable {
 
 class FileRecvThread implements Runnable {
     private int port;
+    private User user;
     private String fileName;
 
-    public FileRecvThread(int port) {
+    public FileRecvThread(User user,int port) {
         this.port = port;
+        this.user=user;
     }
 
-    public FileRecvThread(int port, String fileName) {
+    public FileRecvThread(User user,int port, String fileName) {
+        this.user=user;
         this.port = port;
         this.fileName = fileName;
     }
@@ -153,6 +168,7 @@ class FileRecvThread implements Runnable {
     public void run() {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
+//            user.send("READY");
             Socket recvSocket = serverSocket.accept();
             if (fileName == null)
                 fileName = "recvFile";

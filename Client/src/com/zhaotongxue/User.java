@@ -24,11 +24,12 @@ public class User {
     private String name;
     BufferedReader recv = null;
     BufferedWriter sender = null;
-
-    public User(final Socket socket) {
+    ObjectInputStream objReader=null;
+    public User(final Socket socket) throws IOException {
         this.socket = socket;
         this.addr = socket.getInetAddress();
         this.name = socket.getInetAddress().toString().substring(1);
+//        objReader=new ObjectInputStream(new BufferedInputStream(this.socket.getInputStream()));
         try {
             recv = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
             sender = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF-8"));
@@ -37,9 +38,8 @@ public class User {
         }
     }
 
-
     public Object readObject() throws ClassNotFoundException, IOException {
-        ObjectInputStream objReader=new ObjectInputStream(new BufferedInputStream(this.socket.getInputStream()));
+//         ObjectInputStream objReader=new ObjectInputStream(new BufferedInputStream(this.socket.getInputStream()));
 //        Object obj=objReader.readObject();
 //        return obj;
         return objReader.readObject();

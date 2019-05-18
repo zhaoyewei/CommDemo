@@ -8,12 +8,15 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * ClientMain
  */
 public class ClientMain {
+    Thread thread = null;
     //   private String host = "10.122.195.204";
     private String host = "127.0.0.1";
     private int port = 1919;
@@ -25,9 +28,8 @@ public class ClientMain {
     private Date date = null;
     private Calendar calendar = Calendar.getInstance();
     private SimpleDateFormat slf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private ArrayList<Msg> msgArray=new ArrayList<>();
+    private ArrayList<Msg> msgArray = new ArrayList<>();
     private boolean logined = false;
-    Thread thread=null;
 
     public static void main(String[] args) {
         ClientMain clientMain = new ClientMain();
@@ -42,7 +44,7 @@ public class ClientMain {
                 socket = new Socket(host, port);
                 user = new User(socket);
                 System.out.println(user.recvMsg());
-                Thread msgThread=new Thread(new Messages());
+                Thread msgThread = new Thread(new Messages());
                 msgThread.start();
                 return;
             } catch (IOException e) {
@@ -76,7 +78,7 @@ public class ClientMain {
                 status = Commands.NONE;
                 break;
 
-                //登录
+            //登录
             case LOGIN:
                 try {
                     if (userLogin(user, strCmd)) {
@@ -88,7 +90,7 @@ public class ClientMain {
                 status = Commands.NONE;
                 break;
 
-                //注册用户
+            //注册用户
             case REGISTER:
                 try {
                     reg(user, strCmd);
@@ -98,7 +100,7 @@ public class ClientMain {
                 status = Commands.NONE;
                 break;
 
-                //获得用户列表
+            //获得用户列表
             case GETLIST:
                 try {
                     getList(user);
@@ -108,7 +110,7 @@ public class ClientMain {
                 status = Commands.NONE;
                 break;
 
-                //获得历史消息
+            //获得历史消息
             case HISTORY:
                 try {
                     getHistory(user, strCmd);
@@ -118,7 +120,7 @@ public class ClientMain {
                 status = Commands.NONE;
                 break;
 
-                //退出程序
+            //退出程序
             case EXIT:
                 // new ExitClient(user);
                 try {
@@ -129,7 +131,7 @@ public class ClientMain {
                 status = Commands.NONE;
                 break;
 
-                //退出端到端聊天
+            //退出端到端聊天
             case EXITPAIR:
                 // new ExitPair(user);
                 try {
@@ -141,7 +143,7 @@ public class ClientMain {
                 status = Commands.NONE;
                 break;
 
-                //退出群组聊天
+            //退出群组聊天
             case EXITGROUP:
                 // new ExitGroup(user);
                 try {
@@ -153,12 +155,12 @@ public class ClientMain {
                 status = Commands.NONE;
                 break;
 
-                //加入端到端聊天
+            //加入端到端聊天
             case PAIRCOMM:
                 try {
                     if (pairComm(user, strCmd)) {
                         status = inCmd;
-                        thread=new Thread(new RecvListener());
+                        thread = new Thread(new RecvListener());
                         thread.start();
                     } else {
                         status = Commands.NONE;
@@ -169,12 +171,12 @@ public class ClientMain {
                 }
                 break;
 
-                //加入群组聊天
+            //加入群组聊天
             case GROUPCOMM:
                 try {
                     if (groupComm(user)) {
                         status = inCmd;
-                        thread=new Thread(new RecvListener());
+                        thread = new Thread(new RecvListener());
                         thread.start();
                     } else {
                         status = Commands.NONE;
@@ -188,15 +190,15 @@ public class ClientMain {
             case MSG:
                 showMsgs();
                 break;
-                //否则什么都不变
+            //否则什么都不变
             default:
                 break;
         }
     }
 
     private void showMsgs() {
-        for(Msg m:msgArray){
-            System.out.println(m.getUserId()+":\t"+m.getDate().toString()+"\n"+m.getContext());
+        for (Msg m : msgArray) {
+            System.out.println(m.getUserId() + ":\t" + m.getDate().toString() + "\n" + m.getContext());
         }
         msgArray.clear();
     }
@@ -211,7 +213,7 @@ public class ClientMain {
                 strCmd = cmdReader.readLine();
 
                 //对于未登录的情况，只能是首先登录或者注册
-                if (!logined && CommandsConverter.getConverter().toCmds(strCmd.split(" ")[0]) != Commands.LOGIN&& CommandsConverter.getConverter().toCmds(strCmd.split(" ")[0]) != Commands.REGISTER) {
+                if (!logined && CommandsConverter.getConverter().toCmds(strCmd.split(" ")[0]) != Commands.LOGIN && CommandsConverter.getConverter().toCmds(strCmd.split(" ")[0]) != Commands.REGISTER) {
                     System.out.println("Please Login first");
                     continue;
                 }
@@ -221,11 +223,11 @@ public class ClientMain {
                     Commands inCmd = CommandsConverter.getConverter().toCmds(strCmd.split(" ")[0]);
                     inCmdProcess(inCmd, strCmd);
                 } else {
-                    if(strCmd.equals(CommandsConverter.getConverter().getStrCmd(Commands.EXITPAIR))){
+                    if (strCmd.equals(CommandsConverter.getConverter().getStrCmd(Commands.EXITPAIR))) {
                         sendCmd(CommandsConverter.getConverter().getStrCmd(Commands.EXITPAIR));
-                    }else if(strCmd.equals(CommandsConverter.getConverter().getStrCmd(Commands.EXITGROUP))){
+                    } else if (strCmd.equals(CommandsConverter.getConverter().getStrCmd(Commands.EXITGROUP))) {
                         sendCmd(CommandsConverter.getConverter().getStrCmd(Commands.EXITGROUP));
-                    }else{
+                    } else {
                         //通信过程中就直接发送
                         sendMsg(strCmd);
                     }
@@ -244,74 +246,12 @@ public class ClientMain {
 
     private void sendCmd(String cmd) throws IOException {
         user.send(cmd);
-        status=Commands.NONE;
+        status = Commands.NONE;
     }
 
     private void sendMsg(String strCmd) throws IOException {
         date = calendar.getTime();
         user.send(String.format("%s//DATE:%s", strCmd, slf.format(date)));
-    }
-    class Messages implements  Runnable{
-
-        @Override
-        public void run() {
-            try {
-                ServerSocket serverSocket=new ServerSocket(2019);
-                Socket messagesQueue=serverSocket.accept();
-                BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(messagesQueue.getInputStream()));
-                String msg=null;
-                SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                while(true){
-                    msg=bufferedReader.readLine();
-                    //format:username//CONTENT:content//DATE:date
-                    String otherUserName=msg.split("//DATE:")[0].split("//CONTENT:")[0];
-                    String otherUserMsgDate=msg.split("//DATE:")[1];
-                    String otherUserMsgContent=msg.split("//CONTENT:")[1].split("//DATE:")[0];
-                    msgArray.add(new Msg(otherUserMsgContent,otherUserName,simpleDateFormat.parse(otherUserMsgDate)));
-                    notificationUser();
-                }
-            } catch (IOException | ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        private void notificationUser() {
-            Toolkit.getDefaultToolkit().beep();
-        }
-    }
-    class RecvListener implements Runnable {
-
-        @Override
-        public void run() {
-            String recvStrMsg = null;
-            while (true) {
-                try {
-                    recvStrMsg = user.recvMsg();
-                    if (CommandsConverter.getConverter().toCmds(recvStrMsg) == Commands.FILERECV) {
-                        fileRecv(user);
-                        continue;
-                    }
-                } catch (IOException e2) {
-                    e2.printStackTrace();
-                }
-                switch (status) {
-
-                    // 啥都没有
-                    case NONE:
-                        showInfo(recvStrMsg);
-                        break;
-                    case PAIRCOMM:
-                        showMsg(recvStrMsg);
-                        break;
-                    case GROUPCOMM:
-                        showMsg(recvStrMsg);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
     }
 
     private void exitPair(User user) throws IOException {
@@ -343,14 +283,14 @@ public class ClientMain {
         System.out.println(recvdMsg);
     }
 
-    private void fileRecv(User user) throws IOException {
-        int port = 2019;
-        fileRecv(user, port);
+    private void fileRecv(User user, String fileName) throws IOException {
+        int port = 9009;
+        fileRecv(user, port, fileName);
     }
 
-    private void fileRecv(User user, int port) throws IOException {
-        FileTransfer fileTransfer = new FileTransfer(user, port);
-        fileTransfer.recvFile();
+    private void fileRecv(User user, int port,String fileName) throws IOException {
+        FileTransfer fileTransfer = new FileTransfer(user);
+        fileTransfer.recvFile(port,fileName);
     }
 
     private void getHistory(User user, String strCmd) throws IOException, ClassNotFoundException {
@@ -368,7 +308,7 @@ public class ClientMain {
     }
 
     private void showMsg(Msg msg) {
-        System.out.println(String.format("%s\t%s:\n%s", msg.getUserId(),msg.getDate().toString(),msg.getContext()));
+        System.out.println(String.format("%s\t%s:\n%s", msg.getUserId(), msg.getDate().toString(), msg.getContext()));
     }
 
     private void getList(User user) throws IOException {
@@ -382,9 +322,41 @@ public class ClientMain {
         }
     }
 
-    private boolean sendFile(User user, String strCmd) throws IOException {
+    /*
+    private void getList(User user) throws IOException {
+        user.send(CommandsConverter.getConverter().getStrCmd(Commands.GETLIST));
+        status = Commands.GETLIST;
+    }
+     */
+    private ArrayList<UserInfo> handleList(String str) {
+        String[] strs = str.split("//MSG:");
+        ArrayList<UserInfo> userList = new ArrayList<>();
+        for (int i = 1; i < strs.length; i++) {
+            UserInfo userInfo = new UserInfo(strs[i].split("//")[0], strs[i].split("//")[1]);
+            userList.add(userInfo);
+        }
+        return userList;
+    }
 
-        FileTransfer file = new FileTransfer(user, strCmd);
+    private void showUserList(String str) {
+        ArrayList<UserInfo> userList = handleList(str);
+        if (userList == null)
+            return;
+        for (int i = 0; i < userList.size(); i++) {
+            System.out.println(
+                    String.format("%d\t:%s\t(ip is:%s)", i + 1, userList.get(i).getName(), userList.get(i).getIpAddr()));
+        }
+
+    }
+
+    private boolean sendFile(User user, String strCmd) throws IOException {
+        String[] fileTransferCmds = strCmd.split(" ");
+        String filename = "";
+        for (int i = 2; i < fileTransferCmds.length; i++) {
+            filename += fileTransferCmds[i];
+        }
+        String recvUserName = fileTransferCmds[1];
+        FileTransfer file = new FileTransfer(user, recvUserName, filename);
         if (file.sendFile()) {
             System.out.println("Send File Successfully");
             return true;
@@ -424,6 +396,88 @@ public class ClientMain {
         } else {
             System.out.println("Register fail");
         }
+    }
+
+    class Messages implements Runnable {
+
+        @Override
+        public void run() {
+            try {
+                ServerSocket serverSocket = new ServerSocket(2019);
+                Socket messagesQueue = serverSocket.accept();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(messagesQueue.getInputStream()));
+                String msg = null;
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                while (true) {
+                    msg = bufferedReader.readLine();
+                    if (msg.equals("//RECVFILE")) {
+                        String fileName = bufferedReader.readLine();
+//                        String senderAddr = bufferedReader.readLine();
+                        fileRecv(user, fileName);
+                    } else {
+                        //format:username//CONTENT:content//DATE:date
+                        String otherUserName = msg.split("//DATE:")[0].split("//CONTENT:")[0];
+                        String otherUserMsgDate = msg.split("//DATE:")[1];
+                        String otherUserMsgContent = msg.split("//CONTENT:")[1].split("//DATE:")[0];
+                        msgArray.add(new Msg(otherUserMsgContent, otherUserName, simpleDateFormat.parse(otherUserMsgDate)));
+                        notificationUser();
+                    }
+                }
+            } catch (IOException | ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        private void notificationUser() {
+            Toolkit.getDefaultToolkit().beep();
+        }
+    }
+
+    class RecvListener implements Runnable {
+
+        @Override
+        public void run() {
+            String recvStrMsg = null;
+            while (true) {
+                try {
+                    recvStrMsg = user.recvMsg();
+                    Commands recvCmd = CommandsConverter.getConverter().toCmds(recvStrMsg);
+                    if (recvCmd == Commands.EXITGROUP || recvCmd == Commands.EXITPAIR) {
+                        status = Commands.NONE;
+                        return;
+                    }
+                    /*
+                    if (recvCmd == Commands.FILERECV) {
+                        fileRecv(user);
+                        continue;
+                    } else if (recvCmd == Commands.EXITGROUP || recvCmd == Commands.EXITPAIR) {
+                        status = Commands.NONE;
+                        return;
+                    }
+                     */
+                } catch (IOException e2) {
+                    e2.printStackTrace();
+                }
+                switch (status) {
+
+                    // 啥都没有
+                    case NONE:
+                        showInfo(recvStrMsg);
+                        break;
+                    case PAIRCOMM:
+                        showMsg(recvStrMsg);
+                        break;
+                        /*
+                    case GROUPCOMM:
+                        showMsg(recvStrMsg);
+                        break;
+                         */
+                    default:
+                        break;
+                }
+            }
+        }
+
     }
 }
 

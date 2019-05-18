@@ -79,7 +79,12 @@ public class User{
     public void getList() throws IOException {
         //获得用户列表并且发送
         ArrayList<UserInfo> userList= ListMaster.getListMaster().getUserInfoList();
-        sendObj(userList);
+//        sendObj(userList);
+        String s="";
+        for(int i=0;i<userList.size();i++){
+           s+="//MSG:"+userList.get(i).getIpAddr().toString().substring(1)+"//"+userList.get(i).getName();
+        }
+        send(s);
     }
 
     //断开连接

@@ -28,10 +28,10 @@ public class GroupMaster {
                         getUser(i).send(msg);
                     }
                 }
-                user.send("1");
+                GroupMaster.getGroupMaster().removeUser(user);
                 return false;
             }
-            if (msg.equals("//EXIT")) {
+            else if (msg.equals("//EXIT")) {
                 msg = user.getName() + " Exited group talk,left:" + getGroupUserNumber();
                 for (int i = 0; i < getGroupUserNumber(); i++) {
                     if (!getUser(i).equals(user)) {
@@ -74,12 +74,6 @@ public class GroupMaster {
     }
 
     public void removeUser(User user) {
-        try {
-            user.disconnect();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
         getGroupUsers().remove(user);
     }
 

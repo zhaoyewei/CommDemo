@@ -6,6 +6,7 @@ import com.zhaotongxue.User;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 
 public class HistoryQuery {
     private UserMsgDBHandler userMsgDBHandler=null;
@@ -21,6 +22,7 @@ public class HistoryQuery {
     //把文件历史记录对象返回
     public void QueryHistory() throws IOException {
         HistoryMsg historyMsg=userMsgDBHandler.getHistory();
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         /*
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         int msgSize=historyMsg.getMsgSize();
@@ -30,6 +32,13 @@ public class HistoryQuery {
         }
         user.send(history);
          */
-        user.sendObj(historyMsg);
+        String s="";
+        for(int i=0;i<historyMsg.getMsgSize();i++){
+           s=
+                   s+"//MSG:"+historyMsg.getMsgUserid(i)+"//"+historyMsg.getMsgContent(i)+"//"+simpleDateFormat.format(historyMsg.getMsgDate(i));
+        }
+//        System.out.println(s);
+//        user.sendObj(historyMsg);
+        user.send(s);
     }
 }

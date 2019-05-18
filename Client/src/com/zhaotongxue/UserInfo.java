@@ -1,6 +1,7 @@
 package com.zhaotongxue;
 import java.io.Serializable;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * @author zhao
@@ -15,6 +16,15 @@ public class UserInfo implements Serializable {
 
     public UserInfo(InetAddress inetAddress, String name) {
         this.ipAddr = inetAddress;
+        this.name = name;
+    }
+
+    public UserInfo(String s, String name) {
+        try {
+            this.ipAddr = InetAddress.getByName(s);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
         this.name = name;
     }
 

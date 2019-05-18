@@ -58,7 +58,6 @@ class Msg implements Serializable{
     private String content = null;
     private String userId=null;
     private Date date=null;
-
     public Msg(String context, String userId, Date date) {
         this.content = context;
         this.userId = userId;

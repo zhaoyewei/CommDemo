@@ -28,7 +28,7 @@ public class PairMaster {
     private boolean TalkTo(String msg,String priMsg, Date date) throws IOException, SQLException {
         //msg is only messeage with out date
         userMsgDBHandler.addHistory(user1, msg, date);
-        if(user2.getPairMaster().user2!=null&&user2.getPairMaster().user2.equals(user1)){
+        if(user2!=null&&user2.getPairMaster().user2!=null&&user2.getPairMaster().user2.equals(user1)){
             user2.send(priMsg);
         }else{
             user2.msgSend(user1.getName()+"//CONTENT:"+priMsg);
@@ -41,7 +41,7 @@ public class PairMaster {
     public boolean TalkTo(String msg) throws IOException, SQLException {
         //parse msg to msg and datetime
         //msg format:content//DATE:date
-        if (user2 == null) {
+        if (user2 == null||user1==null) {
             return false;
         }
         //退出群组
