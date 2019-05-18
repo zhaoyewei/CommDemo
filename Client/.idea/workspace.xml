@@ -11,15 +11,12 @@
       <change beforePath="$PROJECT_DIR$/src/com/zhaotongxue/GetList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/zhaotongxue/GetList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/zhaotongxue/HistoryMsg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/zhaotongxue/HistoryMsg.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/zhaotongxue/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/zhaotongxue/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/zhaotongxue/Msg.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/zhaotongxue/PairComm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/zhaotongxue/PairComm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/zhaotongxue/RegisterUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/zhaotongxue/RegisterUser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/zhaotongxue/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/zhaotongxue/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/zhaotongxue/UserInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/zhaotongxue/UserInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/zhaotongxue/tempCodeRunnerFile.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/com/zhaotongxue/DAO/DAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/com/zhaotongxue/DAO/DAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/com/zhaotongxue/DAO/HistoryMsg.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/com/zhaotongxue/HistoryMsg.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/com/zhaotongxue/DAO/UserMsgDBHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/com/zhaotongxue/DAO/UserMsgDBHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/com/zhaotongxue/MainProcess.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/com/zhaotongxue/MainProcess.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/com/zhaotongxue/SubProcess/FileTransfer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/com/zhaotongxue/SubProcess/FileTransfer.java" afterDir="false" />
@@ -29,7 +26,6 @@
       <change beforePath="$PROJECT_DIR$/../Server/src/com/zhaotongxue/SubProcess/ListMaster.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/com/zhaotongxue/SubProcess/ListMaster.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/com/zhaotongxue/SubProcess/LoginIdentify.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/com/zhaotongxue/SubProcess/LoginIdentify.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/com/zhaotongxue/SubProcess/PairMaster.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/com/zhaotongxue/SubProcess/PairMaster.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/com/zhaotongxue/SubProcess/UserInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/com/zhaotongxue/UserInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/com/zhaotongxue/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/com/zhaotongxue/User.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -50,8 +46,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/zhaotongxue/ClientMain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="479">
-              <caret line="221" selection-start-line="221" selection-end-line="221" />
+            <state relative-caret-position="203">
+              <caret line="211" lean-forward="true" selection-start-line="211" selection-end-line="211" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -62,7 +58,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/zhaotongxue/Login.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="394">
+            <state relative-caret-position="1311">
               <caret line="65" column="24" selection-start-line="65" selection-start-column="24" selection-end-line="65" selection-end-column="24" />
               <folding>
                 <element signature="e#2034#2035#0" expanded="true" />
@@ -90,7 +86,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/zhaotongxue/User.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="383">
+            <state relative-caret-position="1633">
               <caret line="91" selection-start-line="91" selection-end-line="91" />
             </state>
           </provider>
@@ -108,7 +104,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/zhaotongxue/CommandsConverter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="364">
+            <state relative-caret-position="1495">
               <caret line="69" selection-start-line="69" selection-end-line="69" />
               <folding>
                 <element signature="e#311#312#0" expanded="true" />
@@ -121,7 +117,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/zhaotongxue/HistoryMsg.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1127">
+            <state relative-caret-position="1035">
               <caret line="61" column="11" selection-start-line="61" selection-start-column="11" selection-end-line="61" selection-end-column="11" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -293,6 +289,7 @@
       <workItem from="1557588975961" duration="1815000" />
       <workItem from="1557673301363" duration="1813000" />
       <workItem from="1557675140855" duration="1029000" />
+      <workItem from="1558157500486" duration="232000" />
     </task>
     <servers />
   </component>
@@ -301,6 +298,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1563" height="886" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4990099" visible="true" weight="0.16139445" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
