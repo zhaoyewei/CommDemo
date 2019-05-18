@@ -59,6 +59,8 @@ class HandlerProcess implements Runnable{
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("数据库操作失败");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

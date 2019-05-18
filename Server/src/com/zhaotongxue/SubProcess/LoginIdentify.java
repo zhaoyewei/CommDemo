@@ -31,7 +31,7 @@ public class LoginIdentify {
         //return true;
         return userMsgDBHandler.IdentifyUserNameAndPassword(userName,password,user);
     }
-    public boolean Register(String userName,String password) throws SQLException {
+    public int Register(String userName,String password) throws SQLException {
         return userMsgDBHandler.Register(userName,password);
     }
 }

@@ -1,7 +1,7 @@
 package com.zhaotongxue;
 
 import com.zhaotongxue.SubProcess.ListMaster;
-import com.zhaotongxue.SubProcess.UserInfo;
+import com.zhaotongxue.SubProcess.PairMaster;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -15,10 +15,30 @@ public class User{
     private BufferedReader bufferedReader=null;
     private InetAddress addr=null;
     private String name=null;
-//    private PrintWriter printWriter=null;
+    private BufferedWriter msgWriter=null;
+
+    public PairMaster getPairMaster() {
+        return pairMaster;
+    }
+
+    public void setPairMaster(PairMaster pairMaster) {
+        this.pairMaster = pairMaster;
+    }
+
+    private PairMaster pairMaster=null;
+    public void setMsgSocket(Socket msgSocket) throws IOException {
+        this.msgSocket = msgSocket;
+        msgWriter=new BufferedWriter(new OutputStreamWriter(msgSocket.getOutputStream()));
+    }
+    public void msgSend(String str) throws IOException {
+        msgWriter.write(str+"\n");
+        msgWriter.flush();
+    }
+
+    private Socket msgSocket=null;
+
     public User(Socket socket) throws IOException {
         bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-//        printWriter=new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
         bufferedReader=new BufferedReader(new InputStreamReader(socket.getInputStream()));
         this.socket=socket;
         addr=this.socket.getInetAddress();
@@ -40,8 +60,6 @@ public class User{
         //发送消息并刷新
         bufferedWriter.write(msg+"\n");
         bufferedWriter.flush();
-//        printWriter.write(msg+"\n");
-//        printWriter.flush();
     }
     String recvMsg;
     //接收消息
@@ -54,7 +72,6 @@ public class User{
     public String getName(){return getAddr().toString().substring(1);}
     //获得ip地址
     public InetAddress getAddr() {
-//        return socket.getInetAddress().toString();
         return addr;
     }
 
@@ -62,13 +79,6 @@ public class User{
     public void getList() throws IOException {
         //获得用户列表并且发送
         ArrayList<UserInfo> userList= ListMaster.getListMaster().getUserInfoList();
-        /*
-        String listInfo=("userListSize:"+userList.size());
-        for(int i=0;i<userList.size();i++){
-            listInfo+="\n"+((i+1)+":"+userList.get(i).getName());
-        }
-        send(listInfo);
-         */
         sendObj(userList);
     }
 
@@ -84,16 +94,8 @@ public class User{
         ObjectOutputStream oos=new ObjectOutputStream(outputStream);
         oos.writeObject(obj);
         oos.flush();
-        this.send("");
         bufferedWriter.flush();
         oos=null;
-//        socket.getOutputStream().flush();
         return;
-        /*
-        File f=new File("E:\\a.txt");
-        OutputStream outputStream1=new FileOutputStream(f);
-        oos=new ObjectOutputStream(outputStream1);
-        oos.close();
-         */
     }
 }

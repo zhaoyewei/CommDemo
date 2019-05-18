@@ -1,7 +1,7 @@
 package com.zhaotongxue.SubProcess;
 
 import com.zhaotongxue.User;
-import com.zhaotongxue.SubProcess.UserInfo;;
+import com.zhaotongxue.UserInfo;;
 import java.io.IOException;
 import java.util.ArrayList;
 

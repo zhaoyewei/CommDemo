@@ -5,9 +5,10 @@ import com.zhaotongxue.User;
 import java.io.IOException;
 
 public class FileTransfer {
-    public FileTransfer(User user,User recv) throws IOException {
+    public FileTransfer(User user,User recv,String fileName) throws IOException {
         //接收方接受地址
-        recv.send("FileTransfer");
+        recv.send("FileRecv");
+        recv.send(fileName);
         //接收方建立好accept之后
         if(recv.recv().equals("READY")){
             //通知发送方可以连接

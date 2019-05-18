@@ -28,7 +28,11 @@ public class PairMaster {
     private boolean TalkTo(String msg,String priMsg, Date date) throws IOException, SQLException {
         //msg is only messeage with out date
         userMsgDBHandler.addHistory(user1, msg, date);
-        user2.send(priMsg);
+        if(user2.getPairMaster().user2!=null&&user2.getPairMaster().user2.equals(user1)){
+            user2.send(priMsg);
+        }else{
+            user2.msgSend(user1.getName()+"//CONTENT:"+priMsg);
+        }
         return true;
     }
     public User getPair(){
@@ -36,15 +40,25 @@ public class PairMaster {
     }
     public boolean TalkTo(String msg) throws IOException, SQLException {
         //parse msg to msg and datetime
+        //msg format:content//DATE:date
         if (user2 == null) {
             return false;
         }
-        if (msg.equals("//EXITPAIR")) {
+        //退出群组
+        if (msg.split("//DATE:")[0].equals("//EXITPAIR")) {
+            if(user2.getPairMaster().user2!=null&&user2.getPairMaster().user2.equals(user1)){
+                user2.send(user1.getName() + " Exited talk");
+            }
+//            user1.send("//EXITPAIR");
             this.setRecvUser(null);
             return false;
         }
-        if(msg.equals("//EXIT")){
-            throw  new IOException();
+        if(msg.split("//DATE:")[0].equals("//EXIT")){
+            if(user2.getPairMaster().user2!=null&&user2.getPairMaster().user2.equals(user1)) {
+                user2.send("//ExitedLogin");
+            }
+            ListMaster.getListMaster().removeUser(user1);
+            return false;
         }
         Date inDate = null;
         String[] msgSplit = msg.split("//DATE:");

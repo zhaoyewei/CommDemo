@@ -2,6 +2,12 @@ package com.zhaotongxue;
 import java.io.Serializable;
 import java.net.InetAddress;
 
+/**
+ * @author zhao
+ * @version 1.0
+ * @Date 2019年5月11日
+ * UserInfo
+ */
 public class UserInfo implements Serializable {
     private static final long serialVersionUID = 1L;
     private InetAddress ipAddr;

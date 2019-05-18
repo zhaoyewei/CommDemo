@@ -1,12 +1,11 @@
 package com.zhaotongxue.SubProcess;
 
-import com.zhaotongxue.DAO.HistoryMsg;
+import com.zhaotongxue.HistoryMsg;
 import com.zhaotongxue.DAO.UserMsgDBHandler;
 import com.zhaotongxue.User;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 
 public class HistoryQuery {
     private UserMsgDBHandler userMsgDBHandler=null;

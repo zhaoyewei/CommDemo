@@ -1,9 +1,12 @@
 package com.zhaotongxue;
-
+import com.zhaotongxue.UserInfo;
 import java.io.IOException;
 import java.util.ArrayList;
 
 /**
+ * @author zhao
+ * @version 1.0
+ * @Date 2019年5月11日
  * GetList
  */
 public class GetList {

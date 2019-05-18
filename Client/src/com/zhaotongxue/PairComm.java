@@ -21,11 +21,11 @@ public class PairComm {
         }
         this.user.send(String.format("%s %s", CommandsConverter.getConverter().getStrCmd(Commands.PAIRCOMM), cmds[1]));
         String recv = user.recvMsg();
-        if (recv.equals("")) {
+        if (recv.equals("1")) {
             System.out.println("you joined pair comm with "+cmds[1]);
             return true;
         } else {
-            System.out.println(recv);
+            System.out.println("failed");
             return false;
         }
     }

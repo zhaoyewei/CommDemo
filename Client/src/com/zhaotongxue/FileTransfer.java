@@ -46,10 +46,10 @@ public class FileTransfer {
     }
 
     public void recvFile(int port) throws IOException {
-        String path=user.recvMsg();
-        String[] paths= path.split(File.pathSeparator);
-        String fileName = paths[paths.length - 1];
-        Thread fileRecvThread = new Thread(new FileRecvThread(port,fileName));
+        String fileName = user.recvMsg();
+        // String[] paths= path.split(File.pathSeparator);
+        // String fileName = paths[paths.length - 1];
+        Thread fileRecvThread = new Thread(new FileRecvThread(port, fileName));
         fileRecvThread.start();
         user.send("READY");
     }
@@ -71,15 +71,15 @@ public class FileTransfer {
             } else {
                 fis.close();
                 String recvMsg = prepareSendFile();
-                if (!recvMsg.equals("READY")) {
-                    System.out.println("Failed");
-                    fis.close();
-                    return false;
-                } else {
-                    Thread fileTransferThread = new Thread(new FileSendThread(user, file, recvMsg));
-                    fileTransferThread.start();
-                    return true;
-                }
+                Thread fileTransferThread = new Thread(new FileSendThread(user, file, recvMsg));
+                fileTransferThread.start();
+                return true;
+                /*
+                 * if (!recvMsg.equals("READY")) { System.out.println("Failed"); fis.close();
+                 * return false; } else { Thread fileTransferThread = new Thread(new
+                 * FileSendThread(user, file, recvMsg)); fileTransferThread.start(); return
+                 * true; }
+                 */
             }
         }
     }
@@ -155,10 +155,10 @@ class FileRecvThread implements Runnable {
             ServerSocket serverSocket = new ServerSocket(port);
             Socket recvSocket = serverSocket.accept();
             if (fileName == null)
-                fileName = "recv";
+                fileName = "recvFile";
             File f = new File(fileName);
             synchronized (f) {
-                if (f.exists()){
+                if (f.exists()) {
                     f.delete();
                 }
                 f.createNewFile();

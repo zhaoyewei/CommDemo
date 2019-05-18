@@ -1,8 +1,8 @@
 package com.zhaotongxue.DAO;
 
+import com.zhaotongxue.HistoryMsg;
 import com.zhaotongxue.User;
 
-import java.io.IOException;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -78,7 +78,7 @@ public class UserMsgDBHandler extends DBUtils implements DAO {
             String updateInfoStr="UPDATE userinfo SET lastlogintime=?,lastloginip=? WHERE username=? AND password=?;";
             preparedStatement=conn.prepareStatement(updateInfoStr);
             preparedStatement.setString(1,simpleDateFormat.format(new Date()));
-            preparedStatement.setString(2,user.getAddr().subString(1));
+            preparedStatement.setString(2,user.getAddr().toString().substring(1));
             preparedStatement.setString(3,userName);
             preparedStatement.setString(4,password);
             preparedStatement.executeUpdate();
@@ -131,15 +131,18 @@ public class UserMsgDBHandler extends DBUtils implements DAO {
                         " DATETIME);", user1Name.replace('.','_'), user2Name.replace('.','_'));
         statement.execute(createTable);
     }
-    public boolean Register(String userName,String password) throws SQLException {
+    public int Register(String userName,String password) throws SQLException {
         String dupSQL="SELECT username FROM userinfo WHERE username=?;";
         preparedStatement=conn.prepareStatement(dupSQL);
         preparedStatement.setString(1,userName);
-        if(preparedStatement.executeQuery().next()) return false;
+        if(preparedStatement.executeQuery().next()) return -1;
         String regSQL="INSERT INTO userinfo VALUES(?,?,null,null );";
         preparedStatement=conn.prepareStatement(regSQL);
         preparedStatement.setString(1,userName);
         preparedStatement.setString(2,password);
-        return !preparedStatement.execute();
+        if(!preparedStatement.execute())return 1;
+        else {
+            return 0;
+        }
     }
 }
