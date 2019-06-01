@@ -5,19 +5,40 @@ import com.zhaotongxue.User;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * @author zhao
+ * 群组通信管理
+ * @version 1.0
+ */
 public class GroupMaster {
+    //唯一的管理对象
     private static GroupMaster groupMaster = new GroupMaster();
+    //群组通信里面的用户列表
     private static ArrayList<User> groupUsers = new ArrayList<User>();
 
+    /**
+     *
+     * @return 获得群组管理对象列表
+     */
     public ArrayList<User> getGroupUsers() {
         return groupUsers;
     }
 
+    /**
+     *
+     * @return 获得群组管理对象列表
+     */
     public static GroupMaster getGroupMaster() {
         return groupMaster;
     }
 
-    // 发送消息，如果是//EXIT则退出，如果出现异常则抛出异常，通知主线程退出
+    /**
+     * @param msg
+     * 消息
+     * @param user
+     * 消息内容
+     *发送消息，如果是//EXIT则退出，如果出现异常则抛出异常，通知主线程退出
+      */
     public boolean sendMsg(User user, String msg) throws IOException {
         try {
             boolean exit = false;
@@ -61,22 +82,39 @@ public class GroupMaster {
         }
     }
 
+    /**
+     *
+     * @param user
+     * 加入群组通信的用户
+     */
     public void addUser(User user) {
         groupUsers.add(user);
     }
 
-    // public GroupMaster() {
-    // this.groupUsers = new ArrayList<User>();
-    // }
 
+    /**
+     *
+     * @return 群组中用户数量
+     */
     public int getGroupUserNumber() {
         return getGroupUsers().size();
     }
 
+    /**
+     *
+     * @param user
+     * 推出的用户
+     */
     public void removeUser(User user) {
         getGroupUsers().remove(user);
     }
 
+    /**
+     *
+     * @param i
+     * 下标
+     * @return 第i个群组中的用户
+     */
     public User getUser(int i) {
         return getGroupUsers().get(i);
     }

@@ -1,9 +1,12 @@
 package com.zhaotongxue;
-
+import com.zhaotongxue.HistoryMsg.*;
 import java.io.IOException;
 
 /**
- * PairComm
+ * @author zhao
+ * 处理端到端通信
+ * @date 2019年6月1日
+ * @version 1.0
  */
 public class PairComm {
     private User user;

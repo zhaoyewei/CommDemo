@@ -9,6 +9,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
 
+/**
+ * @author zhao
+ * 服务器主进程
+ * @date 2019年6月1日
+ * @version 1.0
+ */
 
 public class MainProcess {
     private static final int MAXUSERNUMBER=60;
@@ -30,7 +36,8 @@ public class MainProcess {
             System.out.println("用户连接，ip:"+socket.getInetAddress());
             //子进程创建，用来处理
             Thread handlerProcess=new Thread(new HandlerProcess(user));
-            handlerProcess.setName(user.getName());
+            //通过ip设置线程名，方面调试
+            handlerProcess.setName(user.getAddr().toString());
             handlerProcess.start();
         }
     }
@@ -40,6 +47,11 @@ class HandlerProcess implements Runnable{
     public HandlerProcess(User user) {
         this.user=user;
     }
+
+    /**
+     * @exception IOException
+     * 用户异常退出
+     */
     @Override
     public void run() {
         try {

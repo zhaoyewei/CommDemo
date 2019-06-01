@@ -12,6 +12,10 @@ import java.nio.channels.FileChannel;
 
 /**
  * FileTransfer
+ * @author zhao
+ * 处理文件的接收和发送
+ * @date 2019年6月1日
+ * @version 1.0
  */
 public class FileTransfer {
 
@@ -35,16 +39,26 @@ public class FileTransfer {
         file=new File(path);
         this.recvUserName=recvUserName;
     }
-//    public FileTransfer(User user,int port,String fileName,String )
+
+    /**
+     *准备发送文件
+     * @return 服务器准备装填
+     * @throws IOException
+     */
     public String prepareSendFile() throws IOException {
         user.send(CommandsConverter.getConverter().getStrCmd(Commands.FILETRANSFER)+" "+recvUserName+" "+file.getName());
         return user.recvMsg();
     }
 
+    /**
+     * 接收文件
+     * @param port
+     * @param fileName
+     * @throws IOException
+     */
     public void recvFile(int port,String fileName) throws IOException {
         Thread fileRecvThread = new Thread(new FileRecvThread(user,port, fileName));
         fileRecvThread.start();
-//        user.send("READY");
     }
 
     /*
@@ -59,6 +73,11 @@ public class FileTransfer {
     }
      */
 
+    /**
+     * 具体处理发送文件
+     * @return
+     * @throws IOException
+     */
     public boolean sendFile() throws IOException {
         if (!file.exists()) {
             System.out.println("File not exits");
@@ -97,6 +116,12 @@ public class FileTransfer {
     }
 }
 
+/**
+ * @author zhao
+ * 发送文件子进程
+ * @date 2019年6月1日
+ * @version 1.0
+ */
 class FileSendThread implements Runnable {
 
     private User user;
@@ -148,6 +173,12 @@ class FileSendThread implements Runnable {
 
 }
 
+/**
+ * @author zhao
+ * 接收文件线程
+ * @date 2019年6月1日
+ * @version 1.0
+ */
 class FileRecvThread implements Runnable {
     private int port;
     private User user;

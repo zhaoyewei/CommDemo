@@ -14,6 +14,9 @@ import java.util.Date;
 
 /**
  * ClientMain
+ * @author zhao
+ * 客户端主线程
+ * @version 1.0
  */
 public class ClientMain {
     Thread thread = null;
@@ -31,12 +34,19 @@ public class ClientMain {
     private ArrayList<Msg> msgArray = new ArrayList<>();
     private boolean logined = false;
 
+    /**
+     * 初始化并且执行
+     * @param args
+     */
     public static void main(String[] args) {
         ClientMain clientMain = new ClientMain();
         clientMain.InitConnection();
         clientMain.MianProcess();
     }
 
+    /**
+     * 初始化主线程连接，接收线程连接
+     */
     private void InitConnection() {
         while (true) {
             try {
@@ -66,6 +76,13 @@ public class ClientMain {
 
     }
 
+    /**
+     * 处理客户命令
+     * @param inCmd
+     * 已经转化过的命令
+     * @param strCmd
+     * 用户输入的原始命令
+     */
     private void inCmdProcess(Commands inCmd, String strCmd) {
         switch (inCmd) {
 
@@ -196,6 +213,9 @@ public class ClientMain {
         }
     }
 
+    /**
+     * 展示消息
+     */
     private void showMsgs() {
         for (Msg m : msgArray) {
             System.out.println(m.getUserId() + ":\t" + m.getDate().toString() + "\n" + m.getContext());
@@ -203,6 +223,9 @@ public class ClientMain {
         msgArray.clear();
     }
 
+    /**
+     * 监听用户输入并且进行相应转化
+     */
     private void MianProcess() {
         // 处理本地用户输入操作
         status = Commands.NONE;
@@ -244,16 +267,31 @@ public class ClientMain {
         }
     }
 
+    /**
+     *
+     *
+     * @param cmd
+     * 发送的命令
+     * @throws IOException
+     */
     private void sendCmd(String cmd) throws IOException {
         user.send(cmd);
         status = Commands.NONE;
     }
 
+    /**
+     * 发送消息
+     */
     private void sendMsg(String strCmd) throws IOException {
         date = calendar.getTime();
         user.send(String.format("%s//DATE:%s", strCmd, slf.format(date)));
     }
 
+    /**
+     * 退出端到端同行
+     * @param user
+     * @throws IOException
+     */
     private void exitPair(User user) throws IOException {
         user.send(CommandsConverter.getConverter().getStrCmd(Commands.EXITPAIR));
         String s = user.recvMsg();
@@ -263,6 +301,12 @@ public class ClientMain {
             System.out.println(s);
         }
     }
+
+    /**
+     * 退出群组同行
+     * @param user
+     * @throws IOException
+     */
 
     private void exitGroup(User user) throws IOException {
         user.send(CommandsConverter.getConverter().getStrCmd(Commands.EXITGROUP));
@@ -274,25 +318,53 @@ public class ClientMain {
         }
     }
 
+    /**
+     * 退出程序
+     * @throws IOException
+     */
     private void exitClient() throws IOException {
         user.disconnect();
         System.exit(1);
     }
 
+    /**
+     * 显示服务器发送过来的消息
+     * @param recvdMsg
+     */
     private void showInfo(String recvdMsg) {
         System.out.println(recvdMsg);
     }
 
+    /**
+     * 接收消息
+     * @param user
+     * @param fileName
+     * @throws IOException
+     */
     private void fileRecv(User user, String fileName) throws IOException {
         int port = 9009;
         fileRecv(user, port, fileName);
     }
 
+    /**
+     * 用特定端口接收消息，拓展功能
+     * @param user
+     * @param port
+     * @param fileName
+     * @throws IOException
+     */
     private void fileRecv(User user, int port,String fileName) throws IOException {
         FileTransfer fileTransfer = new FileTransfer(user);
         fileTransfer.recvFile(port,fileName);
     }
 
+    /**
+     *请求获得历史消息
+     * @param user
+     * @param strCmd
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     private void getHistory(User user, String strCmd) throws IOException, ClassNotFoundException {
         GetHistory history = new GetHistory(user, strCmd);
         HistoryMsg historyMsg = history.getHistory();
@@ -303,14 +375,27 @@ public class ClientMain {
         }
     }
 
+    /**
+     * 展示消息
+     * @param msg
+     */
     private void showMsg(String msg) {
         System.out.println(msg);
     }
 
+    /**
+     * 展示消息，不过基本作废了
+     * @param msg
+     */
     private void showMsg(Msg msg) {
         System.out.println(String.format("%s\t%s:\n%s", msg.getUserId(), msg.getDate().toString(), msg.getContext()));
     }
 
+    /**
+     * 获得当前用户列表
+     * @param user
+     * @throws IOException
+     */
     private void getList(User user) throws IOException {
         GetList getUserList = new GetList(user);
         ArrayList<UserInfo> userList = getUserList.getList();
@@ -322,11 +407,10 @@ public class ClientMain {
         }
     }
 
-    /*
-    private void getList(User user) throws IOException {
-        user.send(CommandsConverter.getConverter().getStrCmd(Commands.GETLIST));
-        status = Commands.GETLIST;
-    }
+    /**
+     * 获得用户列表后进行相应处理
+     * @param str
+     * @return
      */
     private ArrayList<UserInfo> handleList(String str) {
         String[] strs = str.split("//MSG:");
@@ -338,6 +422,10 @@ public class ClientMain {
         return userList;
     }
 
+    /**
+     * 展示在线用户
+     * @param str
+     */
     private void showUserList(String str) {
         ArrayList<UserInfo> userList = handleList(str);
         if (userList == null)
@@ -349,6 +437,13 @@ public class ClientMain {
 
     }
 
+    /**
+     * 发送文件
+     * @param user
+     * @param strCmd
+     * @return
+     * @throws IOException
+     */
     private boolean sendFile(User user, String strCmd) throws IOException {
         String[] fileTransferCmds = strCmd.split(" ");
         String filename = "";
@@ -366,16 +461,36 @@ public class ClientMain {
         }
     }
 
+    /**
+     * 端到端通信管理
+     * @param user
+     * @param strCmd
+     * @return
+     * @throws IOException
+     */
     private boolean pairComm(User user, String strCmd) throws IOException {
         PairComm pair = new PairComm(user, strCmd);
         return pair.joinPairComm();
     }
 
+    /**
+     * 群组通信管理
+     * @param user
+     * @return
+     * @throws IOException
+     */
     private boolean groupComm(User user) throws IOException {
         GroupComm group = new GroupComm(user);
         return group.joinGroup(user);
     }
 
+    /**
+     * 处理登录事务
+     * @param user
+     * @param strCmd
+     * @return
+     * @throws IOException
+     */
     private boolean userLogin(User user, String strCmd) throws IOException {
         Login login = new Login(user, strCmd);
         if (login.login()) {
@@ -388,6 +503,12 @@ public class ClientMain {
         }
     }
 
+    /**
+     * 负责注册用户
+     * @param user
+     * @param strCmd
+     * @throws IOException
+     */
     private void reg(User user, String strCmd) throws IOException {
         RegisterUser registerUser = new RegisterUser(user, strCmd);
         int regRes = registerUser.reg();
@@ -398,6 +519,13 @@ public class ClientMain {
         }
     }
 
+    /**
+     * @author zhao
+     * 内部类，实现背景消息监听
+     * 主要是用来接收别的用户发过来的、但是当前用户并未与之正在通信的消息
+     * @date 2019年6月1日
+     * @version 1.0
+     */
     class Messages implements Runnable {
 
         @Override
@@ -433,6 +561,12 @@ public class ClientMain {
         }
     }
 
+    /**
+     * @author zhao
+     * 监听主线程接收到的消息
+     * @date  2019年6月1日
+     * @version 1.0
+     */
     class RecvListener implements Runnable {
 
         @Override
@@ -446,15 +580,6 @@ public class ClientMain {
                         status = Commands.NONE;
                         return;
                     }
-                    /*
-                    if (recvCmd == Commands.FILERECV) {
-                        fileRecv(user);
-                        continue;
-                    } else if (recvCmd == Commands.EXITGROUP || recvCmd == Commands.EXITPAIR) {
-                        status = Commands.NONE;
-                        return;
-                    }
-                     */
                 } catch (IOException e2) {
                     e2.printStackTrace();
                 }
@@ -467,11 +592,9 @@ public class ClientMain {
                     case PAIRCOMM:
                         showMsg(recvStrMsg);
                         break;
-                        /*
                     case GROUPCOMM:
                         showMsg(recvStrMsg);
                         break;
-                         */
                     default:
                         break;
                 }

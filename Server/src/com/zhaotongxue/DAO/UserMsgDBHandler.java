@@ -7,12 +7,24 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * @author zhao
+ * 处理数据库操作
+ * 名字起得不好，容易误会
+ * @version 1.0
+ */
 public class UserMsgDBHandler extends DBUtils implements DAO {
     private String user1Name = null, user2Name = null;
     private Connection conn = null;
     private Statement statement = null;
     private PreparedStatement preparedStatement=null;
 
+    /**
+     *
+     * @param user1Name
+     * @param user2Name
+     * @throws SQLException
+     */
     public UserMsgDBHandler(String user1Name, String user2Name) throws SQLException {
         if(user2Name!=null&&user1Name!=null) {
             //user1,user2按照字典序排序
@@ -24,6 +36,12 @@ public class UserMsgDBHandler extends DBUtils implements DAO {
         }
     }
 
+    /**
+     * 重载方法
+     * @param user1
+     * @param user2
+     * @throws SQLException
+     */
     public UserMsgDBHandler(User user1, String user2) throws SQLException {
         /*
         if(user1!=null&&user2!=null) {
@@ -38,6 +56,12 @@ public class UserMsgDBHandler extends DBUtils implements DAO {
         this(user1.getName(), user2);
     }
 
+    /**
+     * 重载方法
+     * @param user1
+     * @param user2
+     * @throws SQLException
+     */
     public UserMsgDBHandler(User user1, User user2) throws SQLException {
 
         /*
@@ -53,13 +77,24 @@ public class UserMsgDBHandler extends DBUtils implements DAO {
         this(user1.getName(), user2.getName());
     }
 
+    /**
+     * 初始化
+     * @throws SQLException
+     */
     public UserMsgDBHandler() throws SQLException {
         conn = DBUtils.getConnection();
         statement = conn.createStatement();
     }
 
     SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    //先不验证，直接放回True
+
+    /**
+     * 验证登录信息
+     * @param userName
+     * @param password
+     * @param user
+     * @return 登录则返回最后一次登陆的ip和时间，否则返回null
+     */
     @Override
     public String IdentifyUserNameAndPassword(String userName, String password,User user) {
         String res=null;
@@ -88,6 +123,10 @@ public class UserMsgDBHandler extends DBUtils implements DAO {
         return res;
     }
 
+    /**
+     *
+     * @return 历史消息
+     */
     @Override
     public synchronized HistoryMsg getHistory() {
         if(user1Name==null||user2Name==null||user1Name==user2Name) return null;
@@ -108,7 +147,15 @@ public class UserMsgDBHandler extends DBUtils implements DAO {
         return historyMsg;
     }
 
-    public synchronized void addHistory(User userSent, String user1Msg, Date date) throws SQLException {
+    /**
+     * 插入消息到数据库
+     * @param userSent
+     * @param user1Msg
+     * @param date
+     * @throws SQLException
+     */
+    @Override
+    public  void addHistory(User userSent, String user1Msg, Date date) throws SQLException {
         if(user1Name==null||user2Name==null||userSent==null) return;
         Object[] param = {user1Name.replace('.','_'), user2Name.replace('.','_'), userSent.getName(), user1Msg, simpleDateFormat.format(date)};
         String sql=String.format("INSERT INTO msg_%s_%s VALUES(?,?,?);",user1Name.replace('.','_'),
@@ -125,12 +172,27 @@ public class UserMsgDBHandler extends DBUtils implements DAO {
         }
     }
 
+    /**
+     * 两个用户还没有聊过就创建个数据库
+     * 老师说一般不这么写
+     * 但是懒得改了
+     * @throws SQLException
+     */
     private synchronized void InitTwoUsers() throws SQLException {
         String createTable =
                 String.format("CREATE TABLE IF NOT EXISTS msg_%s_%s (sender VARCHAR(36),content VARCHAR (200),msgdate" +
                         " DATETIME);", user1Name.replace('.','_'), user2Name.replace('.','_'));
         statement.execute(createTable);
     }
+
+    /**
+     * 注册用户
+     * @param userName
+     * @param password
+     * @return 用户注册状态返回代码
+     * @throws SQLException
+     */
+    @Override
     public int Register(String userName,String password) throws SQLException {
         String dupSQL="SELECT username FROM userinfo WHERE username=?;";
         preparedStatement=conn.prepareStatement(dupSQL);

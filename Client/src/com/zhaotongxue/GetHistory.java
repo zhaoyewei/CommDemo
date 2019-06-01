@@ -3,7 +3,10 @@ package com.zhaotongxue;
 import java.io.IOException;
 
 /**
- * GetHistory
+ * @author zhao
+ * 接收历史消息
+ * @date 2019年6月1日
+ * @version 1.0
  */
 public class GetHistory {
 
@@ -15,14 +18,17 @@ public class GetHistory {
         this.strCmd = cmd;
     }
 
-    public HistoryMsg getHistory() throws IOException, ClassNotFoundException {
+    /**
+     *
+     * @return 历史消息对象
+     * @throws IOException
+     */
+    public HistoryMsg getHistory() throws IOException{
         String[] cmds = strCmd.split(" ");
         if (cmds.length != 2){
             return null;
         } else {
             this.user.send(String.format("%s %s",CommandsConverter.getConverter().getStrCmd(Commands.HISTORY),cmds[1]));
-            //String his=this.user.recvMsg();
-//            HistoryMsg obj = (HistoryMsg) user.readObject();
             String str=user.recvMsg();
             HistoryMsg historyMsg=new HistoryMsg();
             String[] strs=str.split("//MSG:");

@@ -3,7 +3,10 @@ package com.zhaotongxue;
 import java.io.IOException;
 
 /**
- * GroupComm
+ * @author zhao
+ * 处理群组通信
+ * @date 2019年6月1日
+ * @version 1.0
  */
 public class GroupComm {
     private User user;
