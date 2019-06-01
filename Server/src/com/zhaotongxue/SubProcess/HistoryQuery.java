@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat;
 /**
  * @author zhao
  * 历史消息查询
- * @datetime 2019年6月1日
  * @version 1.0
  */
 public class HistoryQuery {

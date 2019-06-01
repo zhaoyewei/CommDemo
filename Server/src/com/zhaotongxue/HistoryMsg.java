@@ -8,9 +8,9 @@ import java.util.Date;
 
 /**
  * @author zhao
- * ÓÃÀ´´«ÊäÀúÊ·ÏûÏ¢
+ * ç”¨æ¥ä¼ è¾“å†å²æ¶ˆæ¯
  * @version 1.0
- * ±¾À´´òËãÓÃ´«Êä¶ÔÏóµÄĞÎÊ½À´´«ÊäÀúÊ·ÏûÏ¢£¬ºóÀ´ÒòÎªÏûÏ¢¸ñÊ½²»Ò»ÖÂ¿Í»§¶Ë²»ºÃ´¦ÀíËùÒÔ×ªÎª×Ö·û´®´¦Àí
+ * æœ¬æ¥æ‰“ç®—ç”¨ä¼ è¾“å¯¹è±¡çš„å½¢å¼æ¥ä¼ è¾“å†å²æ¶ˆæ¯ï¼Œåæ¥å› ä¸ºæ¶ˆæ¯æ ¼å¼ä¸ä¸€è‡´å®¢æˆ·ç«¯ä¸å¥½å¤„ç†æ‰€ä»¥è½¬ä¸ºå­—ç¬¦ä¸²å¤„ç†
  */
 class SeriableSimpDateFormat extends SimpleDateFormat implements Serializable{
     public SeriableSimpDateFormat(String s){
@@ -19,24 +19,24 @@ class SeriableSimpDateFormat extends SimpleDateFormat implements Serializable{
 }
 /**
  * @author zhao
- * ÓÃÀ´²éÑ¯¡¢´«ÊäÀúÊ·ÏûÏ¢
+ * ç”¨æ¥æŸ¥è¯¢ã€ä¼ è¾“å†å²æ¶ˆæ¯
  * @version 1.0
  */
 public class HistoryMsg implements Serializable {
-    //ÏûÏ¢ÁĞ±í
+    //æ¶ˆæ¯åˆ—è¡¨
     private ArrayList<Msg> msgs=new ArrayList<Msg>();
-    //ÈÕÆÚ¸ñÊ½
+    //æ—¥æœŸæ ¼å¼
     private SeriableSimpDateFormat simpleDateFormat=new SeriableSimpDateFormat("yyyy-MM-dd hh:mm:ss");
 
     /**
      *
      * @param userId
-     * ·¢ËÍÏûÏ¢ÓÃ»§id
+     * å‘é€æ¶ˆæ¯ç”¨æˆ·id
      * @param content
-     * ÄÚÈİ
+     * å†…å®¹
      * @param msgDate
-     * ÈÕÆÚ
-     * @return ÊÇ·ñÌí¼Ó³É¹¦
+     * æ—¥æœŸ
+     * @return æ˜¯å¦æ·»åŠ æˆåŠŸ
      */
     public boolean addMsg(String userId,String content,Date msgDate){
         return msgs.add(new Msg(userId,content,msgDate));
@@ -44,12 +44,12 @@ public class HistoryMsg implements Serializable {
     /**
      *
      * @param userId
-     * ·¢ËÍÏûÏ¢ÓÃ»§id
+     * å‘é€æ¶ˆæ¯ç”¨æˆ·id
      * @param content
-     * ÄÚÈİ
+     * å†…å®¹
      * @param strDateTime
-     * ÈÕÆÚ
-     * @return ÊÇ·ñÌí¼Ó³É¹¦
+     * æ—¥æœŸ
+     * @return æ˜¯å¦æ·»åŠ æˆåŠŸ
      */
     public boolean addMsg(String userId,String content,String strDateTime){
         try{
@@ -68,8 +68,8 @@ public class HistoryMsg implements Serializable {
     /**
      *
      * @param i
-     *  ÏûÏ¢ÏÂ±ê
-     * @return µÚi¸öÏûÏ¢
+     *  æ¶ˆæ¯ä¸‹æ ‡
+     * @return ç¬¬iä¸ªæ¶ˆæ¯
      */
     public Msg getMsg(int i){
         return msgs.get(i);
@@ -77,8 +77,8 @@ public class HistoryMsg implements Serializable {
     /**
      *
      * @param i
-     *  ÏûÏ¢ÏÂ±ê
-     * @return µÚi¸öÏûÏ¢ÄÚÈİ
+     *  æ¶ˆæ¯ä¸‹æ ‡
+     * @return ç¬¬iä¸ªæ¶ˆæ¯å†…å®¹
      */
     public String getMsgContent(int i){
         return msgs.get(i).getContext();
@@ -86,8 +86,8 @@ public class HistoryMsg implements Serializable {
     /**
      *
      * @param i
-     *  ÏûÏ¢ÏÂ±ê
-     * @return µÚi¸öÏûÏ¢ÈÕÆÚ
+     *  æ¶ˆæ¯ä¸‹æ ‡
+     * @return ç¬¬iä¸ªæ¶ˆæ¯æ—¥æœŸ
      */
     public Date getMsgDate(int i){
         return msgs.get(i).getDate();
@@ -95,17 +95,15 @@ public class HistoryMsg implements Serializable {
     /**
      *
      * @param i
-     *  ÏûÏ¢ÏÂ±ê
-     * @return µÚi¸öÏûÏ¢·¢ËÍ·½id
+     *  æ¶ˆæ¯ä¸‹æ ‡
+     * @return ç¬¬iä¸ªæ¶ˆæ¯å‘é€æ–¹id
      */
     public String getMsgUserid(int i){
         return msgs.get(i).getUserId();
     }
     /**
      *
-     * @param i
-     *  ÏûÏ¢ÏÂ±ê
-     * @return µÚi¸öÏûÏ¢´óĞ¡
+     * @return æ¶ˆæ¯å¤§å°
      */
     public int getMsgSize(){
         return msgs.size();
@@ -114,7 +112,7 @@ public class HistoryMsg implements Serializable {
 
 /**
  * @author zhao
- * Msg±¾À´ÓÃÓÚÏûÏ¢´«Êä£¬ºóÀ´×÷·Ï
+ * Msgæœ¬æ¥ç”¨äºæ¶ˆæ¯ä¼ è¾“ï¼Œåæ¥ä½œåºŸ
  * @version 1.0
  */
 class Msg implements Serializable{

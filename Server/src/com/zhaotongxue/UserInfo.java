@@ -5,7 +5,7 @@ import java.net.InetAddress;
 
 /**
  * @author zhao
- * ±¾À´´òËãÓÃUserInfoÀ´´«Êä£¬µ«ÊÇÓÉÓÚÏûÏ¢¸ñÊ½²»Ò»ÖÂ²»·½±ã´¦ÀíËùÒÔ·ÅÆú
+ * æœ¬æ¥æ‰“ç®—ç”¨UserInfoæ¥ä¼ è¾“ï¼Œä½†æ˜¯ç”±äºæ¶ˆæ¯æ ¼å¼ä¸ä¸€è‡´ä¸æ–¹ä¾¿å¤„ç†æ‰€ä»¥æ”¾å¼ƒ
  * @version 1.0
  */
 public class UserInfo implements Serializable {
@@ -29,7 +29,7 @@ public class UserInfo implements Serializable {
     /**
      *
      * @param ipAddr
-     * ÓÃ»§ip
+     * ç”¨æˆ·ip
      */
     public void setIpAddr(InetAddress ipAddr) {
         this.ipAddr = ipAddr;
@@ -37,7 +37,7 @@ public class UserInfo implements Serializable {
 
     /**
      *
-     * @return ÓÃ»§Ãû
+     * @return ç”¨æˆ·å
      */
     public String getName() {
         return name;
@@ -46,7 +46,7 @@ public class UserInfo implements Serializable {
     /**
      *
      * @param name
-     * ÉèÖÃÓÃ»§Ãû
+     * è®¾ç½®ç”¨æˆ·å
      */
     public void setName(String name) {
         this.name = name;

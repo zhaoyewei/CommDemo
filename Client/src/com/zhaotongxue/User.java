@@ -14,7 +14,7 @@ import java.net.Socket;
 /**
  * @author zhao
  * @version 1.0
- * @Date 2019年5月11日
+ * 2019年5月11日
  * User
  */
 public class User {

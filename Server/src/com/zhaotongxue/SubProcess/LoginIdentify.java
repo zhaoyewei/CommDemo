@@ -8,7 +8,6 @@ import java.sql.SQLException;
 /**
  * @author zhao
  * 验证登录
- * @datetime 2019年6月1日
  * @version  1.0
  */
 public class LoginIdentify {

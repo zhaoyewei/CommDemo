@@ -7,7 +7,7 @@ import java.net.UnknownHostException;
  * @author zhao
  * 用户信息
  * @version 1.0
- * @Date 2019年5月11日
+ * 2019年5月11日
  * UserInfo
  */
 public class UserInfo implements Serializable {

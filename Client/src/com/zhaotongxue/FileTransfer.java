@@ -14,7 +14,7 @@ import java.nio.channels.FileChannel;
  * FileTransfer
  * @author zhao
  * 处理文件的接收和发送
- * @date 2019年6月1日
+ * 2019年6月1日
  * @version 1.0
  */
 public class FileTransfer {

@@ -3,7 +3,7 @@ package com.zhaotongxue;
 /**
  * @author zhao
  * @version 1.0
- * @Date 2019年5月11日
+ * 2019年5月11日
  * Commands
  */
 public enum Commands {
