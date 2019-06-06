@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"HistoryMsg","h":"","u":""},{"l":"MainProcess","h":"","u":""},{"l":"User","h":"","u":""},{"l":"UserInfo","h":"","u":""},{"l":"所有类","h":"","u":"allclasses-index.html"}]

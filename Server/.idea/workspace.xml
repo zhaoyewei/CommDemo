@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="538d2b86-fce9-4187-9033-587342ebb3eb" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../Client/src/com/zhaotongxue/Commands.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/com/zhaotongxue/Commands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/com/zhaotongxue/CommandsConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/com/zhaotongxue/CommandsConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/com/zhaotongxue/FileTransfer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/com/zhaotongxue/FileTransfer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/com/zhaotongxue/GetHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/com/zhaotongxue/GetHistory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/com/zhaotongxue/GetList.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/com/zhaotongxue/GetList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/com/zhaotongxue/GroupComm.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/com/zhaotongxue/GroupComm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/com/zhaotongxue/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/com/zhaotongxue/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/com/zhaotongxue/PairComm.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/com/zhaotongxue/PairComm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/com/zhaotongxue/RegisterUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/com/zhaotongxue/RegisterUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/com/zhaotongxue/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/com/zhaotongxue/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/src/com/zhaotongxue/UserInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/src/com/zhaotongxue/UserInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/zhaotongxue/MainProcess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/zhaotongxue/MainProcess.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/zhaotongxue/SubProcess/Handler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/zhaotongxue/SubProcess/Handler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/zhaotongxue/SubProcess/HistoryQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/zhaotongxue/SubProcess/HistoryQuery.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/zhaotongxue/SubProcess/LoginIdentify.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/zhaotongxue/SubProcess/LoginIdentify.java" afterDir="false" />
-    </list>
+    <list default="true" id="538d2b86-fce9-4187-9033-587342ebb3eb" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,17 +26,31 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/zhaotongxue/SubProcess/Handler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-47">
-              <caret line="200" selection-start-line="200" selection-end-line="200" />
+            <state relative-caret-position="137">
+              <caret line="208" selection-start-line="208" selection-end-line="208" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#758#759#0" expanded="true" />
                 <element signature="e#788#789#0" expanded="true" />
                 <element signature="e#880#881#0" expanded="true" />
                 <element signature="e#918#919#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/zhaotongxue/HistoryMsg.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="506">
+              <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#2689#2690#0" expanded="true" />
+                <element signature="e#2719#2720#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -140,7 +138,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-10" />
     <option name="y" value="-10" />
     <option name="width" value="1939" />
@@ -191,6 +189,13 @@
               <item name="zhaotongxue" type="462c0819:PsiDirectoryNode" />
               <item name="SubProcess" type="462c0819:PsiDirectoryNode" />
               <item name="Handler.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+            </path>
+            <path>
+              <item name="Server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="zhaotongxue" type="462c0819:PsiDirectoryNode" />
+              <item name="HistoryMsg.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
             </path>
             <path>
               <item name="Server" type="b2602c69:ProjectViewProjectNode" />
@@ -300,17 +305,16 @@
       <workItem from="1559367282365" duration="8190000" />
       <workItem from="1559378522245" duration="45000" />
       <workItem from="1559378584866" duration="875000" />
-      <workItem from="1559380078177" duration="91000" />
+      <workItem from="1559380078177" duration="472000" />
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="122659000" />
+    <option name="totallyTimeSpent" value="123040000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1563" height="886" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14138153" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -616,40 +620,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zhaotongxue/HistoryMsg.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-281">
-          <caret line="116" column="19" selection-start-line="116" selection-start-column="19" selection-end-line="116" selection-end-column="19" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#335#336#0" expanded="true" />
-            <element signature="e#359#360#0" expanded="true" />
-            <element signature="e#1587#1588#0" expanded="true" />
-            <element signature="e#1621#1622#0" expanded="true" />
-            <element signature="e#1661#1662#0" expanded="true" />
-            <element signature="e#1708#1709#0" expanded="true" />
-            <element signature="e#1743#1744#0" expanded="true" />
-            <element signature="e#1787#1788#0" expanded="true" />
-            <element signature="e#1826#1827#0" expanded="true" />
-            <element signature="e#1872#1873#0" expanded="true" />
-            <element signature="e#1901#1902#0" expanded="true" />
-            <element signature="e#1935#1936#0" expanded="true" />
-            <element signature="e#2643#2644#0" expanded="true" />
-            <element signature="e#2673#2674#0" expanded="true" />
-            <element signature="e#2719#2720#0" expanded="true" />
-            <element signature="e#2757#2758#0" expanded="true" />
-            <element signature="e#2790#2791#0" expanded="true" />
-            <element signature="e#2819#2820#0" expanded="true" />
-            <element signature="e#2863#2864#0" expanded="true" />
-            <element signature="e#2899#2900#0" expanded="true" />
-            <element signature="e#2928#2929#0" expanded="true" />
-            <element signature="e#2955#2956#0" expanded="true" />
-            <element signature="e#2993#2994#0" expanded="true" />
-            <element signature="e#3025#3026#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zhaotongxue/SubProcess/HistoryQuery.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="501">
@@ -774,14 +744,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zhaotongxue/SubProcess/Handler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-47">
-          <caret line="200" selection-start-line="200" selection-end-line="200" />
+        <state relative-caret-position="137">
+          <caret line="208" selection-start-line="208" selection-end-line="208" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#758#759#0" expanded="true" />
             <element signature="e#788#789#0" expanded="true" />
             <element signature="e#880#881#0" expanded="true" />
             <element signature="e#918#919#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zhaotongxue/HistoryMsg.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="506">
+          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2689#2690#0" expanded="true" />
+            <element signature="e#2719#2720#0" expanded="true" />
           </folding>
         </state>
       </provider>
