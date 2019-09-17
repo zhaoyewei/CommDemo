@@ -1,8 +1,0 @@
-cd /home/zhao/code/java/client/src/com/zhaotongxue
-mput E:\Code\Java\CommDemo\Client\src\com\zhaotongxue\*
-
-cd /home/zhao/code/java/client/src/com/zhaotongxue
-vim ClientMain.java
-cd ../../
-javac com/zhaotongxue/ClientMain.java
-java com/zhaotongxue/ClientMain
