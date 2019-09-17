@@ -1,4 +1,0 @@
-Login zhaotx2 123456789
-GetList
-PairComm 192.168.56.101
-//EXITPAIR
