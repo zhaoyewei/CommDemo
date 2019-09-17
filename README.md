@@ -1,3 +1,2 @@
 # CommDemo
-A java socket Communiate Demo,also as a big homework mainly do in Grade 2.
-I do it mainly in 2019.5.1-5.4
+A java socket Communiate Programm in Grade 2.Mainly in 2019.5.1-5.4
